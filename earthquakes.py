@@ -6,7 +6,7 @@ import requests
 import json
 
 import matplotlib.pyplot as plt
-import numpy as np
+
 from datetime import date
 
 def get_data():
@@ -132,7 +132,7 @@ def plot_number_per_year(earthquakes):
     for year in year_list:
         num_list.append(len(dict[year]))
 
-    plt.title('Number of Earthquakes per Year')
+    plt.title('Number of Earthquakes per Year (Bar charts)')
 
     plt.bar(year_list , num_list)
     plt.legend()
@@ -141,6 +141,8 @@ def plot_number_per_year(earthquakes):
     plt.ylabel('Number')
     plt.show()
     plt.clf()
+
+    plt.title('Number of Earthquakes per Year (Line graph)')
     plt.plot(year_list , num_list)
     plt.xlabel('Year')
     plt.xticks(year_list , rotation=45)
@@ -148,12 +150,12 @@ def plot_number_per_year(earthquakes):
     plt.show()
 
 # With all the above functions defined, we can now call them and get the result
-# data = get_data()
-# print(f"Loaded {count_earthquakes(data)}")
-# max_magnitude, max_location = get_maximum(data)
-# print(f"The strongest earthquake was at {max_location} with magnitude {max_magnitude}")
+data = get_data()
+print(f"Loaded {count_earthquakes(data)}")
+max_magnitude, max_location = get_maximum(data)
+print(f"The strongest earthquake was at {max_location} with magnitude {max_magnitude}")
 
-# quakes = get_data()['features']
-# plot_number_per_year(quakes)
-# plt.clf()  # This clears the figure, so that we don't overlay the two plots
-# plot_average_magnitude_per_year(quakes)
+quakes = get_data()['features']
+plot_number_per_year(quakes)
+plt.clf()  # This clears the figure, so that we don't overlay the two plots
+plot_average_magnitude_per_year(quakes)
