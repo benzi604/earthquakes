@@ -77,83 +77,8 @@ def get_maximum(data):
     # )
     # return biggest_earthquake["mag"], biggest_earthquake["location"]
 
-def get_year(earthquake):
-    """Extract the year in which an earthquake happened."""
-    timestamp = earthquake['properties']['time']
-    # The time is given in a strange-looking but commonly-used format.
-    # To understand it, we can look at the documentation of the source data:
-    # https://earthquake.usgs.gov/data/comcat/index.php#time
-    # Fortunately, Python provides a way of interpreting this timestamp:
-    # (Question for discussion: Why do we divide by 1000?)
-    year = date.fromtimestamp(timestamp/1000).year
-    return year
-
-def get_magnitudes_per_year(earthquakes):
-
-    year_dict={}
-    for quake in earthquakes:
-        if get_year(quake) in year_dict:
-            year_dict[get_year(quake)].append(get_magnitude(quake))
-        else:
-            year_dict[get_year(quake)] = [get_magnitude(quake)]
-    return year_dict
-
-def plot_average_magnitude_per_year(earthquakes):
-    dict = get_magnitudes_per_year(earthquakes)
-    year_list =[]
-    avg_list=[]
-    for item in dict:
-        year_list.append(item)
-
-    year_list.sort()
-
-    for year in year_list:
-        mag_list = dict[year]
-        value = 0
-        for mag in mag_list:
-            value += mag
-        avg_list.append(value / len(mag_list))
-
-    plt.title('Average Magnitude per Year')
-    plt.plot(year_list, avg_list)
-    plt.xlabel('Year')
-    plt.xticks(year_list, rotation=45)
-    plt.ylabel('Average Magnitutde')
-    plt.show()
-
-def plot_number_per_year(earthquakes):
-    dict = get_magnitudes_per_year(earthquakes)
-    year_list =[]
-    num_list=[]
-    for item in dict:
-        year_list.append(item)
-
-    year_list.sort()
-    for year in year_list:
-        num_list.append(len(dict[year]))
-
-    plt.title('Number of Earthquakes per Year')
-
-    plt.bar(year_list , num_list)
-    plt.legend()
-    plt.xlabel('Year')
-    plt.xticks(year_list , rotation=45)
-    plt.ylabel('Number')
-    plt.show()
-    plt.clf()
-    plt.plot(year_list , num_list)
-    plt.xlabel('Year')
-    plt.xticks(year_list , rotation=45)
-    plt.ylabel('Number')
-    plt.show()
-
 # With all the above functions defined, we can now call them and get the result
-# data = get_data()
-# print(f"Loaded {count_earthquakes(data)}")
-# max_magnitude, max_location = get_maximum(data)
-# print(f"The strongest earthquake was at {max_location} with magnitude {max_magnitude}")
-
-# quakes = get_data()['features']
-# plot_number_per_year(quakes)
-# plt.clf()  # This clears the figure, so that we don't overlay the two plots
-# plot_average_magnitude_per_year(quakes)
+data = get_data()
+print(f"Loaded {count_earthquakes(data)}")
+max_magnitude, max_location = get_maximum(data)
+print(f"The strongest earthquake was at {max_location} with magnitude {max_magnitude}")
